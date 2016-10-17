@@ -1,0 +1,3 @@
+{
+  "main": "otocloud.webserver.verticle.WebServerVerticle"
+}

@@ -1,0 +1,68 @@
+== 注册API
+如果配置了webserver_name参数，则 +
+注册地址: <webserver_name>.platform.register.rest.to.webserver
+
+如果没有配置webserver_name参数，则 +
+注册地址: platform.register.rest.to.webserver
+
+=== 注册消息格式
+[source,json]
+.单独注册
+----
+{
+    "address":"事件总线地址",
+    "decoratingAddress":"应用地址解析功能所监听的地址", #<1>
+    "uri":"Restful API的URL",
+    "method":"HTTP请求的方法", #<2>
+    "messageFormat":"command" #<3>
+}
+----
+<1> 可选字段, 如果应用的事件总线地址需要动态生成, 则注册该字段. +
+在派发HTTP请求时, WebServer首先将"address"字段发送到"decoratingAddress"地址处, +
+应用在"decoratingAddress"地址处回复动态生成的真实地址. +
+WebServer收到真实地址后, 将把HTTP请求转发到真实地址上.
+<2> 包含 get/post/put/delete.
+<3> 可选字段, 指定应用期望的消息格式, 支持"command"(全部小写)和"default"两种.
+如果没有设置, 默认采用"default"格式.
+如果设置为"command", 则应用接收消息的一端需要使用'otocloud.common.Command'类编写.
+
+[source,json]
+.批量注册
+----
+[
+    {
+        "address":"事件总线地址",
+        "uri":"Restful API的URL",
+        "method":"HTTP请求的方法"
+    },
+    {
+        "address":"事件总线地址",
+        "uri":"Restful API的URL",
+        "method":"HTTP请求的方法",
+        "messageFormat":"command"
+    }
+    //...
+]
+----
+
+=== 注册成功返回的消息格式
+[source,json]
+.单独注册成功
+----
+{
+    "result":"registerId" //注册ID
+}
+----
+[source,json]
+.批量注册成功
+----
+[
+    {
+        "result":"registerId" //注册ID
+    },
+    {
+        "result":"registerId" //注册ID
+    }
+    //...
+]
+----

@@ -1,0 +1,38 @@
+== 注销API
+注销地址: <webserver_name>.platform.unregister.rest.to.webserver
+
+=== 注销消息格式
+[source,json]
+.单独注销
+----
+{
+    "registerId": "" //注册ID
+}
+----
+[source,json]
+.批量注销
+----
+[
+    {
+        "registerId": "" //注册ID
+    },
+    ...
+]
+----
+
+=== 注销成功返回的消息格式
+[source,json]
+.单独注销成功
+----
+{
+    "result":"success"
+}
+----
+
+[source,json]
+.批量注销成功
+----
+{
+    "result":"success"
+}
+----

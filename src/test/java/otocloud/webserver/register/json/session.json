@@ -1,0 +1,5 @@
+{
+  "id": "SessionId",  //固定字段 
+  "accId": "AccountId",  //账户ID 
+  "someKey": "SomeValue"  //应用需要的其他字段
+}

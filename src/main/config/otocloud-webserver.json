@@ -1,0 +1,19 @@
+{
+  "main": "otocloud.webserver.WebServerVerticle",
+  "options": {
+    "config": {
+      "webserver_name": "", //WebServer的名称
+      "http.port": "", //配置端口号
+      "address.register": "", //配置注册地址
+      "address.unregister": "", //配置注销地址
+      "eventbus.url": "", //配置客户端事件总线URL地址
+      "mongo_client": {
+        "host": "10.10.23.112",
+        "port": 27017
+      },
+      "sockJS_bridge_options":{
+        "ping_timeout":30000
+      }
+    }
+  }
+}

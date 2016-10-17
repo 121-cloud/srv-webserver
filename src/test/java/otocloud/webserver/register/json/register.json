@@ -1,0 +1,6 @@
+{
+  "uri": "app/login",
+  "method": "post",
+  "address": "my.application",
+  "action": "(optional)应用可以理解的数据行为"
+}

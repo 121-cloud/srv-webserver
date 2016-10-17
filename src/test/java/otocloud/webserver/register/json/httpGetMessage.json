@@ -1,0 +1,8 @@
+// get http://localhost:8080/my/app?name=ye&para1=123
+{
+  "queryParams": {
+    "name": "ye",
+    "para1": "123"
+  },
+  "content": null
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="js/sockjs-1.0.3.min.js"></script>
+<script src='js/vertxbus.js'></script>
+
+<script>
+
+//    var eb = new vertx.EventBus('http://localhost:8081/someurl');
+    var eb = new vertx.EventBus('http://localhost:8081/eventbus');
+
+    eb.onopen = function() {
+
+        var func = function(message){
+            console.log('received a message: ' + JSON.stringify(message));
+        };
+        // 设置指定地址的消息接收函数
+        eb.registerHandler('some-address', func);
+
+        //注销指定地址上的指定函数.
+//        eb.unregisterHandler('some-address', func);
+
+        // 向指定地址发送消息
+        eb.send('some-address', {name: 'tim', age: 587});
+
+    }
+
+</script>
+</body>
+</html>

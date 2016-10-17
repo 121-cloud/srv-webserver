@@ -1,0 +1,8 @@
+// post http://localhost:8080/my/app
+// body: { "name":"yezhang" }
+{
+  "queryParams": {},
+  "content": {
+    "name": "yezhang"
+  }
+}

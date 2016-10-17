@@ -1,0 +1,121 @@
+= WebServer接口
+//张野 <zhangyef@yonyou.com>
+//v0.2, 2015年11月:
+//:toc-title: 目录
+
+== 部署WebServer
+部署WebServer时，可以配置以下参数。 +
+不配置的参数需要删除，不能配置一个空的内容。
+[source,json]
+----
+{
+    "webserver_name": "", //WebServer的名称
+    "http.port": "", //配置端口号
+    "eventbus.url": "" //配置客户端事件总线URL地址
+}
+----
+
+== 解析应用目标地址
+当注册信息中含有 "decoratingAddress" 字段时, WebServer在转发请求时将先向"该字段表示的地址"发起请求, 获得应用的真实地址.
+
+[source,json]
+.请求消息体格式
+----
+{
+    "addressPattern": "<注册时提供的address>"
+}
+----
+
+[source,json]
+.响应消息体格式
+----
+{
+    "realAddress": "应用目标地址."
+}
+----
+
+== 发起HTTP请求
+当向WebServer注册Restful API后，便可以向应用发起请求了。
+例如，如果注册的REST API信息为：
+[source,json]
+----
+{
+    "address":"app.address",
+    "uri":"/app/func",
+    "method":"get"
+}
+----
+那么，客户端（Java代码或浏览器）发起Get请求的格式如下：
+----
+get http://<ip>:<http.port>/api/app/func
+----
+WARNING: 服务器会在注册的URL地址上自动添加"``/api``"前缀。
+
+== 查询WebServer配置
+可以向WebServer事件总线发消息，查询其配置信息。
+
+.请求总线地址
+----
+<webserver_name>.configuration.get
+----
+[source,json]
+.请求消息体格式
+----
+{}
+----
+[source,json]
+.响应消息体格式
+----
+{
+    "webserver_name": "", #<1>
+    "http.port": "", #<2>
+    "eventbus.url": "" #<3>
+}
+----
+<1> WebServer的名称。
+<2> 配置端口号。
+<3> 配置客户端事件总线URL地址。
+[source,json]
+.错误消息体格式
+----
+{
+    "errCode": 1,
+    "errMsg": "Fail"
+}
+----
+== 修改WebServer配置
+可以向WebServer事件总线发消息，修改其配置信息。
+
+=== 发起总线请求
+.请求总线地址
+----
+<webserver_name>.configuration.put
+----
+[source,json]
+.请求消息体格式 - 开启授权
+----
+{
+    "auth.enabled":true
+}
+----
+.请求消息体格式 - 关闭授权
+----
+{
+    "auth.enabled":false
+}
+----
+.请求消息体格式 - 设置Session查询地址
+----
+{
+    "auth.session_query_address":""
+}
+----
+=== 收到响应
+响应消息体格式 - 操作成功
+[source,json]
+----
+{
+    "errCode": 0,
+    "errMsg": "Success"
+}
+----
