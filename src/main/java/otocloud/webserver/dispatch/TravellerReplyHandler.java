@@ -91,13 +91,15 @@ public class TravellerReplyHandler<T> implements Handler<AsyncResult<Message<T>>
 
         Set<String> fields = sessionInfo.fieldNames();
         Session session = this.context.session();
-
-        for (String f : fields) {
-            if (f.equalsIgnoreCase(SESSION_ID)) {
-                continue;
-            }
-
-            session.put(f, sessionInfo.getValue(f));
+        
+        if(session != null){
+	        for (String f : fields) {
+	            if (f.equalsIgnoreCase(SESSION_ID)) {
+	                continue;
+	            }
+	
+	            session.put(f, sessionInfo.getValue(f));
+	        }
         }
 
         //将set-session放置到返回的消息体中

@@ -1,4 +1,4 @@
-package otocloud.webserver.dispatch;
+/*package otocloud.webserver.dispatch;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.eventbus.EventBus;
@@ -21,13 +21,13 @@ import otocloud.webserver.util.AuthSwitch;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-/**
+*//**
  * DefaultTravellerImpl Tester.
  *
  * @author <Authors name>
  * @version 1.0
  * @since <pre>九月 22, 2015</pre>
- */
+ *//*
 public class DefaultTravellerImplTest extends WebServerTestBase {
 
 //    @Test
@@ -249,9 +249,9 @@ public class DefaultTravellerImplTest extends WebServerTestBase {
         }
     }
 
-    /**
+    *//**
      * Method: to(EventBusAddress address)
-     */
+     *//*
     @Test
     public void testToAddress(TestContext testContext) throws Exception {
         final Async async = testContext.async();
@@ -342,3 +342,4 @@ public class DefaultTravellerImplTest extends WebServerTestBase {
         });
     }
 } 
+*/

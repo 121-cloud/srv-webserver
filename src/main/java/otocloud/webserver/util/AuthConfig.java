@@ -1,6 +1,9 @@
 package otocloud.webserver.util;
 
+import com.fasterxml.jackson.databind.cfg.ConfigFeature;
+
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 存储Auth服务器(授权服务器)的配置信息.
@@ -10,11 +13,32 @@ public class AuthConfig {
     /**
      * Auth服务器注册的登录URL地址.
      */
-    private String loginUrl;
+    private String loginUrl = "/api/otocloud-auth/user-management/users/actions/login";
 
     private JsonArray securityUrls;
 
-    private String sessionQueryAddress;
+    private String sessionQueryAddress = "otocloud-auth.user-management.query";
+    
+    public AuthConfig(JsonObject config){
+    	reInit(config);
+    }
+    
+    public void reInit(JsonObject config){
+        String sessionQueryAddress = config.getString("auth.session_query_address");
+        if (sessionQueryAddress != null) {
+            setSessionQueryAddress(sessionQueryAddress);
+        }
+
+        String loginUrl = config.getString("auth.login_url");
+        if (loginUrl != null) {
+            setLoginUrl(loginUrl);
+        }
+
+        JsonArray securityUrls = config.getJsonArray("auth.security_urls");
+        if (securityUrls != null) {
+            setSecurityUrls(securityUrls);
+        }
+    }
 
     public String getSessionQueryAddress() {
         return sessionQueryAddress;

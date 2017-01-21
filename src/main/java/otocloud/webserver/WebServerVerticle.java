@@ -76,10 +76,10 @@ public class WebServerVerticle extends AbstractVerticle {
         }
 
         //For Debug - 默认关闭授权, 允许所有请求通过.
-        boolean authEnabled = config.getBoolean(CONFIG_AUTHENTICATION, false);
+        boolean authEnabled = config.getBoolean(CONFIG_AUTHENTICATION, true);
 
         authSwitch = new AuthSwitch(authEnabled);
-        authConfig = new AuthConfig();
+        authConfig = new AuthConfig(config); 
 
         mainRouter = createMainRouter(vertx);
     }
@@ -152,21 +152,8 @@ public class WebServerVerticle extends AbstractVerticle {
                     authSwitch.turnOff();
                 }
             }
-
-            String sessionQueryAddress = config.getString("auth.session_query_address");
-            if (sessionQueryAddress != null) {
-                authConfig.setSessionQueryAddress(sessionQueryAddress);
-            }
-
-            String loginUrl = config.getString("auth.login_url");
-            if (loginUrl != null) {
-                authConfig.setLoginUrl(loginUrl);
-            }
-
-            JsonArray securityUrls = config.getJsonArray("auth.security_urls");
-            if (securityUrls != null) {
-                authConfig.setSecurityUrls(securityUrls);
-            }
+            
+            authConfig.reInit(config);
 
             msg.reply(new JsonObject().put("errCode", 0).put("errMsg", "Success"));
         });

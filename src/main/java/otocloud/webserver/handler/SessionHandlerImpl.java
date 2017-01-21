@@ -306,7 +306,7 @@ public class SessionHandlerImpl implements SessionHandler {
         context.setSession(session);
 
         //在响应头中添加Set-Session
-//        context.response().headers().add(HTT_HEADERS_SET_SESSION, session.id());
+        context.response().headers().add(HTT_HEADERS_SET_SESSION, session.id());
 
         addStoreSessionHandler(context);
     }
