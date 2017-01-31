@@ -56,9 +56,13 @@ public class Dispatcher implements Handler<RoutingContext> {
         if (StringUtils.isNotBlank(messageType) && messageType.equals(RegisterInfo.COMMAND)) {
             logger.info("正在使用 [Command] 消息结构传递HTTP请求.");
 
+            //传递API调用
             travelWithCommand(registerInfo, routingContext);
+            
         } else {
             logger.info("正在使用 [兼容] 消息结构传递HTTP请求.");
+            
+            //传递API调用
             travel(registerInfo, routingContext);
         }
     }
@@ -108,7 +112,7 @@ public class Dispatcher implements Handler<RoutingContext> {
         if (decoratingAddress != null) {
             logger.info("应用提供的解析地址是: " + decoratingAddress);
             Future<String> addrFuture = Future.future();
-            DefaultTravellerImpl.getDecoratedAddress(context,
+            EventBusTravellerImpl.getDecoratedAddress(context,
                     decoratedInfo.getAddress(), decoratedInfo.getDecoratingAddress(),
                     addrFuture);
 

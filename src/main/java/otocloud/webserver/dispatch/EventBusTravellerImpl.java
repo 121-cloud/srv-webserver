@@ -16,8 +16,8 @@ import java.util.Set;
  * 基本的消息派发策略。
  * Created by better on 15/9/16.
  */
-public class DefaultTravellerImpl implements EventBusTraveller {
-    protected static Logger logger = LoggerFactory.getLogger(DefaultTravellerImpl.class);
+public class EventBusTravellerImpl implements EventBusTraveller {
+    protected static Logger logger = LoggerFactory.getLogger(EventBusTravellerImpl.class);
 
     private Vertx vertx;
     private RoutingContext context;
@@ -28,7 +28,7 @@ public class DefaultTravellerImpl implements EventBusTraveller {
 
     private JsonObject info;
 
-    public DefaultTravellerImpl(Vertx vertx) {
+    public EventBusTravellerImpl(Vertx vertx) {
         this.vertx = vertx;
     }
 

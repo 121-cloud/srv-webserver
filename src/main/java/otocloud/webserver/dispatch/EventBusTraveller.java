@@ -27,7 +27,7 @@ public interface EventBusTraveller {
      * @return
      */
     static EventBusTraveller traveller(Vertx vertx) {
-        return new DefaultTravellerImpl(vertx);
+        return new EventBusTravellerImpl(vertx);
     }
 
     /**

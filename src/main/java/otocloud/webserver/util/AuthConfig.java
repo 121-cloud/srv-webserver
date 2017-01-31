@@ -1,6 +1,5 @@
 package otocloud.webserver.util;
 
-import com.fasterxml.jackson.databind.cfg.ConfigFeature;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -13,7 +12,7 @@ public class AuthConfig {
     /**
      * Auth服务器注册的登录URL地址.
      */
-    private String loginUrl = "/api/otocloud-auth/user-management/users/actions/login";
+    private String loginUrl = "/api/otocloud-auth/user-management/users/actions/authenticate";
 
     private JsonArray securityUrls;
 

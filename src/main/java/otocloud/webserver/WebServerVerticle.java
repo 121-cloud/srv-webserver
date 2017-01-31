@@ -91,9 +91,9 @@ public class WebServerVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> future) {
 
+    	server.requestHandler(configMainRouter()::accept);
         HttpServerOptions options = createOptions();
         server = vertx.createHttpServer(options);
-        server.requestHandler(configMainRouter()::accept);
 
         server.listen(result -> {
             if (result.succeeded()) {

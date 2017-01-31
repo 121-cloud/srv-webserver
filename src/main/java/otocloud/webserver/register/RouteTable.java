@@ -83,10 +83,10 @@ public class RouteTable {
         //如果没有前导斜线,则自动添加.
         url = url.startsWith("/") ? url : "/" + url;
 
+        //核心注册代码
         String method = registerMessage.getMethod();
         Route route = addRoute(method, url);
-
-        route.handler(dispatch(message));
+        route.handler(createDispatcher(message));
 
         mongoDAO.insert(message.copy(), ret -> {
             String registerId;
@@ -137,7 +137,7 @@ public class RouteTable {
         });
     }
 
-    private Handler<RoutingContext> dispatch(JsonObject message) {
+    private Handler<RoutingContext> createDispatcher(JsonObject message) {
         return Dispatcher.create(vertx, message);
     }
 
