@@ -2,9 +2,12 @@ package otocloud.webserver.util;
 
 import io.vertx.core.Vertx;
 import otocloud.webserver.dispatch.EventBusTraveller;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+
 
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * TODO 该类必须是线程安全的。当同时传来多个HTTP请求时，会有多个线程同时通过该类调用具体的分发器。
@@ -40,7 +43,7 @@ public class TravellerFactory {
         }
 
         if (name.equals(TravellerKind.Dynamic)) {
-            throw new NotImplementedException();
+        	throw new NotImplementedException("not implemented");            
         }
 
         //默认返回基本类型

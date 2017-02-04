@@ -1,4 +1,4 @@
-package otocloud.webserver.verticle;
+/*package otocloud.webserver.verticle;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
@@ -22,9 +22,9 @@ import otocloud.webserver.util.tuple.ThreeTuple;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
-/**
+*//**
  * Created by better/zhangye on 15/9/23.
- */
+ *//*
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegisterAPITest {
     protected static Logger logger = LoggerFactory.getLogger(RegisterAPITest.class);
@@ -164,10 +164,10 @@ public class RegisterAPITest {
         bus = vertx.eventBus();
     }
 
-    /**
+    *//**
      *
      * @param appAddr 应用响应的地址
-     */
+     *//*
     public static void initApp(String appAddr) {
         try {
             deployLatch.await();
@@ -548,3 +548,4 @@ public class RegisterAPITest {
 
     }
 }
+*/

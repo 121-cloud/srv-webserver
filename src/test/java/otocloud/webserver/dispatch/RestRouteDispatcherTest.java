@@ -1,4 +1,4 @@
-package otocloud.webserver.dispatch;
+/*package otocloud.webserver.dispatch;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Handler;
@@ -31,19 +31,19 @@ import java.util.concurrent.Executors;
 
 import static org.junit.Assert.assertTrue;
 
-/**
+*//**
  * RestRouteTable Tester.
  *
  * @author <Authors name>
  * @version 1.0
  * @since <pre>九月 21, 2015</pre>
- */
+ *//*
 @RunWith(VertxUnitRunner.class)
 public class RestRouteDispatcherTest {
     public static final String API_PREFIX = "/api";
-    /**
+    *//**
      * 远程Mongo的IP地址.
-     */
+     *//*
     private final String MONGO_HOST = "10.10.23.112";
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private int port = 8080;
@@ -81,9 +81,9 @@ public class RestRouteDispatcherTest {
 
     }
 
-    /**
+    *//**
      * 测试事件总线地址的动态解析功能.
-     */
+     *//*
     @Test
     public void it_should_decorate_address(TestContext testContext) {
         final Async async = testContext.async();
@@ -422,12 +422,12 @@ public class RestRouteDispatcherTest {
     }
 
 
-    /**
+    *//**
      * 测试同时注册多个URL到不同地址
      *
      * @param testContext
      * @throws Exception
-     */
+     *//*
     @Test
     public void it_should_register_many_get_json_api(TestContext testContext) throws Exception {
         final Async async = testContext.async();
@@ -524,3 +524,4 @@ public class RestRouteDispatcherTest {
     }
 
 }
+*/

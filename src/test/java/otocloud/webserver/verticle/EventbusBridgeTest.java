@@ -12,7 +12,7 @@
  *  http://www.opensource.org/licenses/apache2.0.php
  *
  *  You may elect to redistribute this code under either of these licenses.
- */
+ 
 package otocloud.webserver.verticle;
 
 import io.vertx.core.eventbus.Message;
@@ -30,9 +30,9 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
+*//**
  * @author <a href="http://tfox.org">Tim Fox</a>
- */
+ *//*
 @Ignore("官方参考测试用例")
 public class EventbusBridgeTest extends WebTestBase {
 
@@ -1199,3 +1199,4 @@ public class EventbusBridgeTest extends WebTestBase {
 
 
 }
+*/

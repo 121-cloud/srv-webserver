@@ -1,4 +1,4 @@
-package vertx;
+/*package vertx;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
@@ -16,11 +16,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/**
+*//**
  * 测试RoutingContext.
  * 当接收到HTTP请求时发送总线消息,会导致Request失效.
  * zhangyef@yonyou.com on 2015-11-25.
- */
+ *//*
 @RunWith(VertxUnitRunner.class)
 public class RoutingContextTest {
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -96,9 +96,9 @@ public class RoutingContextTest {
 
     }
 
-    /**
+    *//**
      * 在接到HTTP请求后,首先发送事件总线消息,然后继续处理.
-     */
+     *//*
     @Test
     public void it_should_send_message_in_http_request(TestContext testContext) {
         final Async async = testContext.async();
@@ -112,3 +112,4 @@ public class RoutingContextTest {
         }).end("put");
     }
 }
+*/

@@ -5,7 +5,6 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -16,12 +15,12 @@ import io.vertx.ext.web.handler.sockjs.BridgeOptions;
 import io.vertx.ext.web.handler.sockjs.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
-import io.vertx.ext.web.sstore.LocalSessionStore;
-import io.vertx.ext.web.sstore.SessionStore;
+/*import io.vertx.ext.web.sstore.LocalSessionStore;
+import io.vertx.ext.web.sstore.SessionStore;*/
 import otocloud.webserver.handler.*;
 import otocloud.webserver.handler.SessionHandler;
 import otocloud.webserver.util.AuthConfig;
-import otocloud.webserver.util.AuthSwitch;
+//import otocloud.webserver.util.AuthSwitch;
 import otocloud.webserver.util.GlobalDataPool;
 import otocloud.webserver.util.ShareableUtil;
 
@@ -37,7 +36,7 @@ public class WebServerVerticle extends AbstractVerticle {
     private static final String CONFIG_UN_REGISTER_ADDRESS_KEY = "address.unregister";
     private static final String CONFIG_EVENTBUS_URL_KEY = "eventbus.url";
     private static final String CONFIG_HTTP_PORT_KEY = "http.port";
-    private static final String CONFIG_AUTHENTICATION = "auth.enabled";
+    //private static final String CONFIG_AUTHENTICATION = "auth.enabled";
     private static final String eventBusRouteURL = "/eventbus/*";
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -47,7 +46,7 @@ public class WebServerVerticle extends AbstractVerticle {
     private JsonObject config;
 
     //默认开启授权.
-    private AuthSwitch authSwitch;
+    //private AuthSwitch authSwitch;
     private AuthConfig authConfig;
 
     public static void main(String[] args) {
@@ -76,9 +75,9 @@ public class WebServerVerticle extends AbstractVerticle {
         }
 
         //For Debug - 默认关闭授权, 允许所有请求通过.
-        boolean authEnabled = config.getBoolean(CONFIG_AUTHENTICATION, true);
+        //boolean authEnabled = config.getBoolean(CONFIG_AUTHENTICATION, true);
 
-        authSwitch = new AuthSwitch(authEnabled);
+        //authSwitch = new AuthSwitch(authEnabled);
         authConfig = new AuthConfig(config); 
 
         mainRouter = createMainRouter(vertx);
@@ -91,9 +90,9 @@ public class WebServerVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> future) {
 
-    	server.requestHandler(configMainRouter()::accept);
         HttpServerOptions options = createOptions();
         server = vertx.createHttpServer(options);
+    	server.requestHandler(configMainRouter()::accept);
 
         server.listen(result -> {
             if (result.succeeded()) {
@@ -138,7 +137,7 @@ public class WebServerVerticle extends AbstractVerticle {
                 logger.info("WebServer配置的修改请求: " + config);
             }
 
-            Boolean enabled = config.getBoolean("auth.enabled");
+/*            Boolean enabled = config.getBoolean("auth.enabled");
             if (enabled != null) {
                 if (enabled) {
                     if (logger.isInfoEnabled()) {
@@ -151,7 +150,7 @@ public class WebServerVerticle extends AbstractVerticle {
                     }
                     authSwitch.turnOff();
                 }
-            }
+            }*/
             
             authConfig.reInit(config);
 
@@ -207,8 +206,9 @@ public class WebServerVerticle extends AbstractVerticle {
         }
         mainRouter.route(eventBusUrl).handler(eventBusHandler());
 
-        SessionStore sessionStore = LocalSessionStore.create(vertx);
-        SessionHandler sessionHandler = SessionHandler.create(sessionStore, authSwitch, authConfig);
+        //SessionStore sessionStore = LocalSessionStore.create(vertx);
+        //SessionHandler sessionHandler = SessionHandler.create(sessionStore, authSwitch, authConfig);
+        SessionHandler sessionHandler = SessionHandler.create(authConfig);
         mainRouter.route().handler(sessionHandler);
 
         //添加静态资源支持

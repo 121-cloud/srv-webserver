@@ -2,13 +2,12 @@
   "main": "otocloud.webserver.WebServerVerticle",
   "options": {
     "config": {
-      "webserver_name": "", //WebServer的名称
-      "http.port": "", //配置端口号
-      "address.register": "", //配置注册地址
-      "address.unregister": "", //配置注销地址
-      "eventbus.url": "", //配置客户端事件总线URL地址,
-      "auth.login_url": "/api/otocloud-auth/user-management/users/actions/authenticate",
-	  "auth.session_query_address": "otocloud-auth.user-management.query",
+      "webserver_name": "", 
+      "http.port": "", 
+      "address.register": "", 
+      "address.unregister": "", 
+      "eventbus.url": "", 
+      "auth.login_url": "/api/otocloud-auth/user-management/authenticate",
       "mongo_client": {
         "host": "10.10.23.112",
         "port": 27017

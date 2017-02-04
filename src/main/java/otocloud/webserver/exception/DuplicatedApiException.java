@@ -7,7 +7,12 @@ import io.vertx.core.json.JsonObject;
  * Created by zhangye on 2015-10-13.
  */
 public class DuplicatedApiException extends Exception {
-    public static final String KEY_REGISTER_ID = "registerId";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static final String KEY_REGISTER_ID = "registerId";
 
     private JsonArray duplicatedItems;
     private JsonArray correctItems;

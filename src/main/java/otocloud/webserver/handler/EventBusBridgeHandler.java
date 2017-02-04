@@ -4,7 +4,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
 import io.vertx.ext.web.handler.sockjs.BridgeEventType;
 
@@ -22,10 +21,6 @@ public class EventBusBridgeHandler implements Handler<BridgeEvent> {
             logger.info("————————————————————————————————————————————");
         }
 
-
-    }
-
-    private void printSocketAddress(SocketAddress address){
 
     }
 
@@ -69,12 +64,13 @@ public class EventBusBridgeHandler implements Handler<BridgeEvent> {
     }
 
 
-    private void printMessage(JsonObject raw) {
+/*    private void printMessage(JsonObject raw) {
         //消息总线上的地址
         String address = raw.getString("address");
         //消息的具体内容
         String content = raw.getString("body");
 
         System.out.println("[" + address + "] " + content);
-    }
+    }*/
+    
 }

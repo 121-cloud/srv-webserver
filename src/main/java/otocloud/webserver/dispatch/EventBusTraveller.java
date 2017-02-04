@@ -5,7 +5,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
-import io.vertx.core.json.JsonObject;
+//import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -52,7 +52,7 @@ public interface EventBusTraveller {
      * @param info
      * @return
      */
-    EventBusTraveller carryInfo(JsonObject info);
+    //EventBusTraveller carryInfo(JsonObject info);
 
     /**
      * 设置消息派发策略的数据来源。

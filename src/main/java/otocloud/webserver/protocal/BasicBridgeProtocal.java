@@ -72,6 +72,13 @@ public class BasicBridgeProtocal implements BridgeProtocal {
         String methodName = request.method().name(); //TODO 修改为小写单词
 
         DeliveryOptions options = new DeliveryOptions();
+        
+        //向API消息头添加token
+        boolean hasToken = request.params().contains("token");
+        if (hasToken) {        	
+        	options.addHeader("token", request.params().get("token"));            
+        }
+        
         options.addHeader("method", methodName);
 
         //添加HTTP请求头

@@ -8,9 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
-import otocloud.webserver.util.ContextUtil;
-
-import java.util.Set;
 
 /**
  * 基本的消息派发策略。
@@ -26,8 +23,6 @@ public class EventBusTravellerImpl implements EventBusTraveller {
 
     private MultiMap headers;
 
-    private JsonObject info;
-
     public EventBusTravellerImpl(Vertx vertx) {
         this.vertx = vertx;
     }
@@ -40,20 +35,23 @@ public class EventBusTravellerImpl implements EventBusTraveller {
      * @param decoratingAddress
      * @param future            返回真实地址.
      */
-    public static void getDecoratedAddress(RoutingContext context,
+    public void getDecoratedAddress(
                                            String addressPattern, String decoratingAddress,
                                            Future<String> future) {
         // 通过应用获取真实地址
         JsonObject addressObject = new JsonObject();
         addressObject.put("addressPattern", addressPattern);
 
-        ContextUtil.addSessionToPack(context, addressObject);
+        //ContextUtil.addSessionToPack(context, addressObject);
 
         logger.info(">>>>>>向应用发起请求, 查询目标地址. 请求内容如下>>>>>>");
         logger.info("解析地址: " + decoratingAddress);
         logger.info(addressObject.encodePrettily());
+        
+        DeliveryOptions options = new DeliveryOptions();
+        options.setHeaders(headers);
 
-        context.vertx().eventBus().send(decoratingAddress, addressObject, event -> {
+        vertx.eventBus().send(decoratingAddress, addressObject, options, event -> {
             if (event.failed()) {
                 future.fail(event.cause());
                 return;
@@ -69,7 +67,7 @@ public class EventBusTravellerImpl implements EventBusTraveller {
     }
 
     private EventBusAddress address(String address) {
-        return new DefaultAddressImpl(this).at(address);
+        return new DefaultAddressImpl().at(address);
     }
 
     @Override
@@ -84,11 +82,6 @@ public class EventBusTravellerImpl implements EventBusTraveller {
         return this;
     }
 
-    @Override
-    public EventBusTraveller carryInfo(JsonObject info) {
-        this.info = info;
-        return this;
-    }
 
     @Override
     public EventBusTraveller from(RoutingContext context) {
@@ -99,12 +92,12 @@ public class EventBusTravellerImpl implements EventBusTraveller {
     @Override
     public void to(String address) {
         logger.info("WebServer正在向目标地址转发请求:" + address);
-        to(address, new TravellerReplyHandler(context));
+        to(address, new TravellerReplyHandler<Object>(context));
     }
 
     public void to(String addressPattern, String decoratingAddress) {
         Future<String> addrFuture = Future.future();
-        getDecoratedAddress(context, addressPattern, decoratingAddress, addrFuture);
+        getDecoratedAddress(addressPattern, decoratingAddress, addrFuture);
 
         addrFuture.setHandler(ret -> {
             if (ret.succeeded()) {
@@ -121,11 +114,6 @@ public class EventBusTravellerImpl implements EventBusTraveller {
             throw new IllegalArgumentException("消息派发策略的路由上下文没有设置.");
         }
 
-        //为消息体添加额外信息
-        addInfoToPack();
-
-        ContextUtil.addSessionToPack(context, this.pack);
-
         EventBus bus = vertx.eventBus();
         DeliveryOptions options = new DeliveryOptions();
         options.setHeaders(headers);
@@ -140,17 +128,6 @@ public class EventBusTravellerImpl implements EventBusTraveller {
         }
     }
 
-    private void addInfoToPack() {
-        if (this.info != null && this.pack != null) {
-            if (pack instanceof JsonObject == false) {
-                return;
-            }
-            JsonObject modifiedPack = (JsonObject) pack;
-
-            Set<String> fieldNames = info.fieldNames();
-            fieldNames.forEach(name -> modifiedPack.put(name, info.getValue(name)));
-        }
-    }
 
 
 }

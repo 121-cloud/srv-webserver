@@ -1,4 +1,4 @@
-package otocloud.webserver.verticle;
+/*package otocloud.webserver.verticle;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
@@ -22,9 +22,9 @@ import otocloud.webserver.WebServerVerticle;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-/**
+*//**
  * Created by better on 15/9/11.
- */
+ *//*
 @RunWith(VertxUnitRunner.class)
 public class WebServerVerticleTest {
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -165,3 +165,4 @@ public class WebServerVerticleTest {
 
 
 }
+*/

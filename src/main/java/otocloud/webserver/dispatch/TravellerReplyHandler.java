@@ -8,12 +8,12 @@ import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.Session;
+//import io.vertx.ext.web.Session;
 import otocloud.webserver.protocal.BasicBridgeProtocal;
 import otocloud.webserver.protocal.BridgeProtocal;
 
 import java.util.Map;
-import java.util.Set;
+//import java.util.Set;
 
 /**
  * Created by better/zhangye on 15/9/22.
@@ -22,19 +22,17 @@ public class TravellerReplyHandler<T> implements Handler<AsyncResult<Message<T>>
     public static final String SESSION = "session";
     public static final String SESSION_ID = "id";
 
-    private RoutingContext context;
     private HttpServerResponse response;
     private BridgeProtocal protocal;
 
     public TravellerReplyHandler(RoutingContext context) {
-        this.context = context;
         this.response = context.response();
         this.protocal = new BasicBridgeProtocal();
     }
 
     @Override
     public void handle(AsyncResult<Message<T>> event) {
-        Message<T> message = (Message) event.result();
+        Message<T> message = event.result();
         if (event.failed()) {
             Throwable cause = event.cause();
             // 用户处理消息失败(Message.fail)的情况
@@ -67,47 +65,10 @@ public class TravellerReplyHandler<T> implements Handler<AsyncResult<Message<T>>
                 return;
             }
 
-            //处理Session
-            if (msg instanceof JsonObject) {
-                handlerSessionObject((JsonObject) msg);
-            }
-
             response.end(msg.toString());
         }
     }
 
-    /**
-     * 解析消息体中的Session对象，将其中的数据存储到上下文的Session中。
-     * <p/>
-     * 如果没有包含Session信息，直接返回。
-     *
-     * @param msg
-     */
-    private void handlerSessionObject(JsonObject msg) {
-        JsonObject sessionInfo = msg.getJsonObject(SESSION);
-        if (sessionInfo == null) {
-            return;
-        }
-
-        Set<String> fields = sessionInfo.fieldNames();
-        Session session = this.context.session();
-        
-        if(session != null){
-	        for (String f : fields) {
-	            if (f.equalsIgnoreCase(SESSION_ID)) {
-	                continue;
-	            }
-	
-	            session.put(f, sessionInfo.getValue(f));
-	        }
-        }
-
-        //将set-session放置到返回的消息体中
-//        msg.put("set-session", session.id());
-
-        //移除消息中的Session对象
-        msg.remove(SESSION);
-    }
 
     public BridgeProtocal getProtocal() {
         return protocal;

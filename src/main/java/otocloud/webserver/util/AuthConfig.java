@@ -12,11 +12,11 @@ public class AuthConfig {
     /**
      * Auth服务器注册的登录URL地址.
      */
-    private String loginUrl = "/api/otocloud-auth/user-management/users/actions/authenticate";
+    private String loginUrl = "/api/otocloud-auth/user-management/authenticate";
 
     private JsonArray securityUrls;
 
-    private String sessionQueryAddress = "otocloud-auth.user-management.query";
+    private String sessionQueryAddress = "otocloud-auth.user-management.token-query";
     
     public AuthConfig(JsonObject config){
     	reInit(config);
