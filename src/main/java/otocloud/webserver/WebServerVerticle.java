@@ -44,6 +44,8 @@ public class WebServerVerticle extends AbstractVerticle {
     private Router mainRouter;
     private HttpServer server;
     private JsonObject config;
+    
+    private EventMessageHandler apiEventMessageHandler;
 
     //默认开启授权.
     //private AuthSwitch authSwitch;
@@ -68,6 +70,8 @@ public class WebServerVerticle extends AbstractVerticle {
         if (config.containsKey("mongo_client")) {
             JsonObject mongo_client = config.getJsonObject("mongo_client");
             GlobalDataPool.INSTANCE.put("mongo_client_at_webserver", mongo_client);
+            
+            System.out.println("初始化init.  " + mongo_client.toString());
         }
 
         if (config.containsKey(CONFIG_WEBSERVER_NAME_KEY)) {
@@ -93,19 +97,25 @@ public class WebServerVerticle extends AbstractVerticle {
         HttpServerOptions options = createOptions();
         server = vertx.createHttpServer(options);
     	server.requestHandler(configMainRouter()::accept);
+    	
+    	Future<Void> nextFuture = Future.future();
+    	nextFuture.setHandler(handler->{
+            server.listen(result -> {
+                if (result.succeeded()) {
 
-        server.listen(result -> {
-            if (result.succeeded()) {
+                    startEventBusAPI();
 
-                startEventBusAPI();
+                    logger.info("WebServer状态查询地址：" + options.getHost() + ":" + options.getPort() + "/api/status");
+                    logger.info("WebServer启动成功，监听[" + options.getHost() + ":" + options.getPort() + "]");
+                    future.complete();
+                } else {
+                    future.fail(result.cause());
+                }
+            });
+    	});
+    	
+    	apiEventMessageHandler.getRouteTable().loadFromStore(nextFuture);
 
-                logger.info("WebServer状态查询地址：" + options.getHost() + ":" + options.getPort() + "/api/status");
-                logger.info("WebServer启动成功，监听[" + options.getHost() + ":" + options.getPort() + "]");
-                future.complete();
-            } else {
-                future.fail(result.cause());
-            }
-        });
     }
 
     /**
@@ -219,7 +229,8 @@ public class WebServerVerticle extends AbstractVerticle {
         mainRouter.route("/static/*").handler(staticHandler);
 
         //处理API注册
-        mainRouter.route("/api/*").handler(apiMessageHandler());
+        apiEventMessageHandler = apiMessageHandler();
+        mainRouter.route("/api/*").handler(apiEventMessageHandler);
 
 		/* API */
         mainRouter.mountSubRouter("/api", apiRouter());

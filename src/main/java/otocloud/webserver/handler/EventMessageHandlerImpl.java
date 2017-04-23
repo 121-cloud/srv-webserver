@@ -27,8 +27,10 @@ public class EventMessageHandlerImpl implements EventMessageHandler {
     private Router router;
 
     private DispatchOptions dispatchOptions;
+    
+    private RouteTable routeTable;
 
-    public EventMessageHandlerImpl(Vertx vertx) {
+	public EventMessageHandlerImpl(Vertx vertx) {
         this.vertx = vertx;
         this.router = Router.router(vertx);
         this.dispatchOptions = new DispatchOptions();
@@ -39,6 +41,14 @@ public class EventMessageHandlerImpl implements EventMessageHandler {
         this.router = Router.router(vertx);
         this.dispatchOptions = options;
     }
+    
+    public RouteTable getRouteTable() {
+		return routeTable;
+	}
+
+	public void setRouteTable(RouteTable routeTable) {
+		this.routeTable = routeTable;
+	}
 
     /**
      * 建立REST API请求到EventBus的桥。
@@ -52,15 +62,15 @@ public class EventMessageHandlerImpl implements EventMessageHandler {
     public EventMessageHandler bridge(RestApiBridgeOptions defaultOptions) {
         //建立对消息总线的监听：注册事件、注销事件
         EventBus eb = vertx.eventBus();
-        RouteTable routeTable = new RouteTable(vertx, router);
+        routeTable = new RouteTable(vertx, router);
 
         String registerAddress = dispatchOptions.getRegisterAddress();
         String unregisterAddress = dispatchOptions.getUnRegisterAddress();
 
         addRegisterComsumer(eb, routeTable, registerAddress);
 
-        addUnregisterConsumer(eb, routeTable, unregisterAddress);
-
+        addUnregisterConsumer(eb, routeTable, unregisterAddress);        
+        
         return this;
     }
 

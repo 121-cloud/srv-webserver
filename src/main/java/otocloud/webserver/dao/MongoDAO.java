@@ -5,11 +5,13 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.mongo.MongoClientDeleteResult;
 import otocloud.webserver.WebServerVerticle;
 import otocloud.webserver.util.GlobalDataPool;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -79,6 +81,17 @@ public class MongoDAO {
             return;
         }
         client.findOne(RESTFUL_API_REG_INFO, query, new JsonObject(), resultHandler);
+    }
+    
+    public void findAll(Handler<AsyncResult<List<JsonObject>>> resultHandler) {
+        if (!isConfigured){
+            if(resultHandler != null){
+                resultHandler.handle(Future.failedFuture("没有配置MongoClient,无法查询数据."));
+            }
+            return;
+        }
+        FindOptions findOptions = new FindOptions();        
+        client.findWithOptions(RESTFUL_API_REG_INFO, new JsonObject(), findOptions, resultHandler);
     }
 
     /**

@@ -7,8 +7,18 @@ import java.util.Date;
  */
 public class RegisterInfo {
     public static final String COMMAND = "command";
+    
+    private String _id;
 
-    /**
+    public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
+	/**
      * [可选]
      * <p/>
      * 指定转发消息类型, 该类型与应用可以接受的消息类型一致.

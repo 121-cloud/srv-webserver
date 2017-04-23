@@ -1,5 +1,6 @@
 package otocloud.webserver.handler;
 
+import otocloud.webserver.register.RouteTable;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.RoutingContext;
@@ -25,4 +26,8 @@ public interface EventMessageHandler extends Handler<RoutingContext> {
      * @return this
      */
     EventMessageHandler bridge(RestApiBridgeOptions options);
+    
+    public RouteTable getRouteTable();
+
+	public void setRouteTable(RouteTable routeTable);
 }

@@ -61,6 +61,46 @@ public class RouteTable {
             throw new DuplicatedApiException().add(info.getMethod(), info.getUri());
         }
     }
+    
+    public void loadFromStore(Future<Void> next) {
+
+        mongoDAO.findAll(ret -> {            
+            if (ret.succeeded()) {
+                List<JsonObject> apiRegInfos = ret.result();
+                if(apiRegInfos != null && apiRegInfos.size() > 0){
+                	for(JsonObject apiRegInfo: apiRegInfos){
+                		try{
+	                        RegisterInfo registerMessage = MessageUtil.convertMessage(apiRegInfo);
+	                        if (!registerInfos.containsKey(registerMessage)) {
+		                        String url = registerMessage.getUri();
+		                        //如果没有前导斜线,则自动添加.
+		                        url = url.startsWith("/") ? url : "/" + url;
+		
+		                        //核心注册代码
+		                        String method = registerMessage.getMethod();
+		                        Route route = addRoute(method, url);
+		                        route.handler(createDispatcher(apiRegInfo));
+		                        
+		                        String registerId = apiRegInfo.getString("_id");
+		                        storeInfo(registerId, registerMessage, route);
+		                        
+		                        System.out.println("API注册信息: " + apiRegInfo.toString());
+	
+	                        }
+                		}catch(Exception ex){
+                        	ex.printStackTrace();
+                            logger.error(ex.getMessage()); 
+                		}
+                	}
+                }                                
+            } else {
+            	Throwable err = ret.cause();
+            	err.printStackTrace();
+                logger.error("无法读取数据库API注册信息." + err.getMessage()); 
+            }
+            next.complete();
+        });
+    }
 
     /**
      * @param message 注册消息.
