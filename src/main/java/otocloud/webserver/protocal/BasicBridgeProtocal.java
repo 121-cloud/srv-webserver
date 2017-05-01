@@ -16,10 +16,10 @@ import java.util.Map;
  * Created by better on 15/9/18.
  */
 public class BasicBridgeProtocal implements BridgeProtocal {
-    public static final String QUERY_PARAMS = "queryParams";
+    public static final String QUERY_PARAMS = "query_params";
     public static final String REQUEST_CONTENT = "content";
     public static final String REQUEST_URI = "uri";
-    public static final String REQUEST_ABS_URI = "absUri";
+    public static final String REQUEST_ABS_URI = "abs_uri";
     public static final String REQUEST_Path = "path";
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
